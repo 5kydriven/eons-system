@@ -1,6 +1,5 @@
 <script setup>
-import SigninForm from "@/components/SigninForm.vue"
-
+import SigninForm from "@/components/SigninForm.vue";
 </script>
 
 <template>
@@ -28,6 +27,7 @@ import SigninForm from "@/components/SigninForm.vue"
           >
             Sign in to your account
           </h1>
+          
           <SigninForm />
         </div>
       </div>
