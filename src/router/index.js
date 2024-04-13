@@ -1,6 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import SigninView from '../views/SigninView.vue'
-import MainPage from '../views/MainPage.vue'
 import { useAuthStore } from '@/stores/AuthStore'
 
 const router = createRouter({
@@ -9,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'signin',
-      component: SigninView,
+      component: () => import('@/views/SigninView.vue'),
       meta: {
         auth: false
       }
@@ -17,7 +15,29 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: MainPage,
+      component: () => import('@/views/MainPage.vue'),
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: () => import('@/components/pages/DashboardPage.vue'),
+        },
+        {
+          path: '/sales-report',
+          name: 'sales',
+          component: () => import('@/components/pages/SalesReportPage.vue'),
+        },
+        {
+          path: '/inventory',
+          name: 'inventory',
+          component: () => import('@/components/pages/InventoryPage.vue'),
+        },
+        {
+          path: '/employee',
+          name: 'employee',
+          component: () => import('@/components/pages/EmployeePage.vue'),
+        },
+      ],
       meta: {
         auth: true
       }
@@ -26,17 +46,28 @@ const router = createRouter({
 })
 
 
-router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore(); // Access the authStore instance
-  const { isAuthenticated, user } = authStore;
 
-  if (to.meta.auth && !isAuthenticated) {
-    next({ name: 'signin' });
-  } else if (user.uid && to.name === 'signin') {
-    next({ name: 'dashboard' });
-  } else {
-    next();
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  const isAuthenticated = authStore.isAuthenticated();
+
+  if (isAuthenticated && to.name === 'signin') {
+    next('/dashboard');
+    return;
   }
+
+  if (to.matched.some(record => record.meta.auth) && !isAuthenticated) {
+    next({ name: 'signin' });
+    return;
+  }
+
+  // Allow navigation to child routes of 'dashboard' if authenticated
+  if (to.matched.some(record => record.meta.auth) && isAuthenticated) {
+    next();
+    return;
+  }
+
+  next();
 });
 
 export default router
