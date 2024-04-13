@@ -2,13 +2,11 @@
 import { RouterView } from "vue-router";
 import { useAuthStore } from "./stores/AuthStore";
 import { onMounted } from "vue";
-import { initFlowbite } from 'flowbite'
 
 
 const authStore = useAuthStore();
 
-onMounted(() => {
-  initFlowbite();
+onMounted(() => { 
   authStore.init();
 })
 </script>
