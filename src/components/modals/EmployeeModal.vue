@@ -1,3 +1,25 @@
+<script setup> 
+import { reactive, ref } from 'vue'
+import { useEmployeeStore } from "@/stores/employeeStore";
+
+const employeeCredentials = reactive({
+    name: "",
+    category: "",
+    email: "",
+    password: "",
+})
+
+const addEmployeeRes = ref(null)
+
+const addEmployee = async () => {
+    const res = await useEmployeeStore().addEmployee(employeeCredentials)
+    if(res) {
+        addEmployeeRes.value = res.message
+    }
+}
+
+</script>
+
 <template>
     <!-- Main modal -->
     <div id="defaultModal" tabindex="-1"
@@ -24,35 +46,38 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form>
+                <form @submit.prevent="addEmployee">
                     <div class="grid gap-4 mb-4 sm:grid-cols-2">
                         <div>
                             <label for="name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" name="name" id="name"
+                            <input type="text" name="name" id="name" 
+                            v-model="employeeCredentials.name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Type name of the employee">
                         </div>
                         <div>
                             <label for="Postion"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
-                            <select id="category"
+                            <select id="category" 
+                            v-model="employeeCredentials.category"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected>Select category</option>
                                 <option value="cashier">Cashier</option>
                             </select>
                         </div>
                         <div>
                             <label for="Username"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-                            <input type="text"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                            <input type="email" 
+                            v-model="employeeCredentials.email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="employee1">
+                                placeholder="user@gmail.com">
                         </div>
                         <div>
                             <label for="Password"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                            <input type="password"
+                            <input type="password" 
+                            v-model="employeeCredentials.password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="••••••••">
                         </div>
