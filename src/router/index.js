@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from '@/stores/AuthStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,6 +10,11 @@ const router = createRouter({
       meta: {
         auth: false
       }
+    },
+    {
+      path: '/pos',
+      name: 'pos',
+      component: () => import('@/views/PosView.vue'),
     },
     {
       path: '/dashboard',
@@ -45,29 +49,5 @@ const router = createRouter({
   ]
 })
 
-
-
-router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore();
-  const isAuthenticated = authStore.isAuthenticated();
-
-  if (isAuthenticated && to.name === 'signin') {
-    next('/dashboard');
-    return;
-  }
-
-  if (to.matched.some(record => record.meta.auth) && !isAuthenticated) {
-    next({ name: 'signin' });
-    return;
-  }
-
-  // Allow navigation to child routes of 'dashboard' if authenticated
-  if (to.matched.some(record => record.meta.auth) && isAuthenticated) {
-    next();
-    return;
-  }
-
-  next();
-});
 
 export default router
