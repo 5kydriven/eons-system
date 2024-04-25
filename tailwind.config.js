@@ -25,7 +25,7 @@ export default {
         },
       },
       height: {
-        100: "28rem",
+        100: "25rem",
         120: "30rem",
         130: "35rem",
         140: "40rem",
@@ -35,7 +35,19 @@ export default {
         180: "60rem",
         190: "65rem",
         200: "70rem",
-      }
+      },
+      top: {
+        100: "25rem",
+        120: "30rem",
+        130: "35rem",
+        140: "40rem",
+        150: "45rem",
+        160: "50rem",
+        170: "55rem",
+        180: "60rem",
+        190: "65rem",
+        200: "70rem",
+      },
     },
     fontFamily: {
       roboto: ["Roboto", "sans-serif"],
