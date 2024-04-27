@@ -10,6 +10,7 @@
     "test:unit": "vitest"
   },
   "dependencies": {
+    "chart.js": "^4.4.2",
     "firebase": "^10.10.0",
     "flowbite": "^2.3.0",
     "pinia": "^2.1.7",
