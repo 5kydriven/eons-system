@@ -4,9 +4,9 @@ import { ref } from "vue";
 import { collection, getDocs, where, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 
 export const useInventoryStore = defineStore('invetoryStore', () => {
-    const data = ref()
+    const data = ref([])
     const cart = ref([])
-    const employee = ref()
+    const employee = ref([])
     const loading = ref(false)
 
     const fetchData = () => {
