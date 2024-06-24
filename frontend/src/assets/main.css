@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .sidebar {
+    transition: all .2s ease-in-out;
+  }
+}
+
 :root {
   --primary-50: 236 253 245;
   --primary-100: 209 250 229;
