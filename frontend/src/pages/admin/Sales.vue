@@ -9,7 +9,7 @@ const store = useSaleStore();
 </script>
 
 <template>
-    <h1 class="text-2xl md:text-3xl font-bold">Sales Report</h1>
+    <h1 class="text-2xl text-gray-800 font-bold">Sales Report</h1>
 
     <div class="grid grid-cols-3 gap-3 mt-3">
 

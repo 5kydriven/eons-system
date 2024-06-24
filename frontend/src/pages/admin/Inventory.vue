@@ -52,10 +52,10 @@ onMounted(() => {
 })
 </script>
 <template>
-    <h1 class="font-bold text-3xl mb-4 dark:text-white">Product List</h1>
+    <h1 class="font-bold text-2xl mb-4 text-gray-800 dark:text-white">Product List</h1>
     <DataTable tableStyle="min-width: 50rem" :loading="invStore.loading" :value="invStore.data"
         v-model:filters="filters" :virtualScrollerOptions="{ itemSize: 46 }" removableSort stripedRows dataKey="id"
-        :globalFilterFields="['name', 'brand', 'category']" scrollable scrollHeight="500px" filterDisplay="menu">
+        :globalFilterFields="['name', 'brand', 'category']" scrollable scrollHeight="400px" filterDisplay="menu">
         <template #header>
             <div class="flex justify-between">
                 <div class="flex gap-2">

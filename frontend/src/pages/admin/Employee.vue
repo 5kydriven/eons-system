@@ -32,9 +32,9 @@ onMounted(() => {
 })
 </script>
 <template>
-    <h1 class="font-bold text-3xl mb-4 dark:text-white">Employee List</h1>
+    <h1 class="font-bold text-2xl mb-4 text-gray-800 dark:text-white">Employee List</h1>
     <DataTable tableStyle="min-width: 50rem" :loading="store.loading" removableSort stripedRows dataKey="id" scrollable
-        scrollHeight="500px" v-model:filters="filters" :value="store.employee"
+        scrollHeight="400px" v-model:filters="filters" :value="store.employee"
         :virtualScrollerOptions="{ itemSize: 46 }" :globalFilterFields="['name', 'email']">
         <template #header>
             <div class="flex justify-between">
@@ -68,7 +68,7 @@ onMounted(() => {
         </Column>
     </DataTable>
 
-    <Dialog v-model:visible="dialog" modal header="Add Product" :style="{ width: '28rem' }" :draggable="false">
+    <Dialog v-model:visible="dialog" modal header="Add Employee" :style="{ width: '28rem' }" :draggable="false">
         <form @submit.prevent="addEmployee(employee)">
             <div class="grid gap-4 mb-4 sm:grid-cols-2">
                 <div>
@@ -98,15 +98,6 @@ onMounted(() => {
                     <input type="password" v-model="employee.password"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         placeholder="••••••••" required>
-                </div>
-                <div class="sm:col-span-2">
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upload
-                        picture</label>
-                    <input @change="detectImage"
-                        class="block w-full text-lg placeholder-gray-400 file:rounded-l-lg file:bg-gray-500 file:text-white file:border-0 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                        type="file">
-                    <div class="mt-1 text-xs text-gray-500 dark:text-gray-300">A product
-                        picture is useful to easily identify but it is not mandatory</div>
                 </div>
             </div>
             <div class="flex justify-end">
