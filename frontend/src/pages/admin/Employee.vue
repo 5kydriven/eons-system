@@ -2,19 +2,15 @@
 import { ref, onMounted } from 'vue'
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { useInventoryStore } from '@/stores/InventoryStore';
+import AddEmployee from '@/components/adminForms/AddEmployeeForm.vue'
+import { doc, deleteDoc } from "firebase/firestore";
+import { useToast } from 'primevue/usetoast';
 
 const store = useInventoryStore();
+const toast = useToast();
 
 const filters = ref()
 const dialog = ref(false);
-
-const employee = ref({
-    name: "",
-    email: "",
-    password: "",
-    category: "",
-    image: ""
-})
 
 const initFilters = () => {
     filters.value = {
@@ -25,6 +21,42 @@ const initFilters = () => {
 };
 
 initFilters();
+
+const deleteEmployee = async (uid) => {
+    try {
+        const response = await fetch('http://localhost:8080/deleteUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Set content type to JSON
+            },
+            body: JSON.stringify(uid) // Convert data to JSON string
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+
+        await deleteDoc(doc(db, "employee", result.uid));
+
+        await deleteDoc(doc(db, "accountRoles", result.uid));
+
+        toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully deleted employee!', life: 3000 });
+    } catch (error) {
+        toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong!', life: 3000 });
+        console.log(error);
+    }
+}
+
+const addResult = (res) => {
+    addDialog.value = false
+    if (res == 'success') {
+        toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully added employee!', life: 3000 });
+    } else {
+        toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong!', life: 3000 });
+    }
+}
 
 onMounted(() => {
     store.loading = true
@@ -61,48 +93,17 @@ onMounted(() => {
         <Column field="name" sortable header="Name"></Column>
         <Column field="email" sortable header="Email"></Column>
         <Column field="category" header="Category"></Column>
-        <Column headerStyle="width: 10rem">
+        <Column header="Actions" Style="width: 10rem">
             <template #body="{ data }">
-                <Button severity="danger" icon="pi pi-trash" label="Delete" outlined />
+                <Button severity="danger" icon="pi pi-trash" label="Delete" size="small" outlined
+                    @click="deleteEmployee(data.uid)" />
             </template>
         </Column>
     </DataTable>
 
-    <Dialog v-model:visible="dialog" modal header="Add Employee" :style="{ width: '28rem' }" :draggable="false">
-        <form @submit.prevent="addEmployee(employee)">
-            <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                    <input type="text" name="name" id="name" v-model="employee.name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="Type name of the employee" required>
-                </div>
-                <div>
-                    <label for="Postion"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
-                    <select id="category" v-model="employee.category" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                        <option value="cashier">Cashier</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="Username"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                    <input type="email" v-model="employee.email"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="user@gmail.com" required>
-                </div>
-                <div>
-                    <label for="Password"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                    <input type="password" v-model="employee.password"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="••••••••" required>
-                </div>
-            </div>
-            <div class="flex justify-end">
-                <Button label="add" icon="pi pi-plus" />
-            </div>
-        </form>
+    <Dialog v-model:visible="dialog" modal header="Add Employee" :style="{ width: '30rem' }" :draggable="false">
+        <AddEmployee @result="addResult" />
     </Dialog>
+
+    <Toast />
 </template>
