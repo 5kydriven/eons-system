@@ -30,6 +30,9 @@ import Dialog from 'primevue/dialog';
 import InputMask from 'primevue/inputmask';
 import FileUpload from 'primevue/fileupload';
 import Chart from 'primevue/chart';
+import Password from 'primevue/password';
+import AutoComplete from 'primevue/autocomplete';
+
 
 
 const app = createApp(App)
@@ -53,6 +56,8 @@ app.component('Toast', Toast)
 app.component('Dialog', Dialog)
 app.component('FileUpload', FileUpload)
 app.component('Chart', Chart)
+app.component('Password', Password)
+app.component('AutoComplete', AutoComplete)
 
 
 app.use(PrimeVue, {

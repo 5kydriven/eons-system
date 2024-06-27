@@ -10,6 +10,7 @@ export const useInventoryStore = defineStore('invetoryStore', () => {
     const loading = ref(false)
 
     const fetchData = () => {
+        loading.value = true
         // const q = query(collection(db, "cities"), where("state", "==", "CA"));
         onSnapshot(collection(db, "products"), (querySnapshot) => {
             const products = [];
@@ -22,6 +23,7 @@ export const useInventoryStore = defineStore('invetoryStore', () => {
     }
 
     const getEmployeeData = () => {
+        loading.value = true
         onSnapshot(collection(db, "employee"), (querySnapshot) => {
             const e = [];
             querySnapshot.forEach((doc) => {
@@ -40,6 +42,8 @@ export const useInventoryStore = defineStore('invetoryStore', () => {
             console.log(err);
         }
     }
+
+    
 
     return {
         fetchData,
