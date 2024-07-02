@@ -1,3 +1,4 @@
+// server.js
 import dotenv from 'dotenv';
 import express from 'express';
 import admin from 'firebase-admin';
@@ -15,7 +16,7 @@ admin.initializeApp({
         type: process.env.TYPE,
         project_id: process.env.PROJECT_ID,
         private_key_id: process.env.PRIVATE_KEY_ID,
-        private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+        private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), 
         client_email: process.env.CLIENT_EMAIL,
         client_id: process.env.CLIENT_ID,
         auth_uri: process.env.AUTH_URI,
@@ -26,13 +27,7 @@ admin.initializeApp({
     })
 });
 
-// Configure CORS
-app.use(cors({
-    origin: 'http://localhost:5173', // Replace with your client's origin
-    methods: ['GET', 'POST', 'DELETE', 'OPTIONS'], // Specify allowed methods
-    allowedHeaders: ['Content-Type', 'Authorization'] // Specify allowed headers
-}));
-
+app.use(cors());
 app.use(express.json());
 // Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
