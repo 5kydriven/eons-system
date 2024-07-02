@@ -5,12 +5,14 @@ import { useInventoryStore } from '@/stores/InventoryStore';
 import AddEmployee from '@/components/adminForms/AddEmployeeForm.vue'
 import { doc, deleteDoc } from "firebase/firestore";
 import { useToast } from 'primevue/usetoast';
+import { db } from '@/stores/firebase';
 
 const store = useInventoryStore();
 const toast = useToast();
 
 const filters = ref()
 const dialog = ref(false);
+const loading = ref(false)
 
 const initFilters = () => {
     filters.value = {
@@ -23,13 +25,14 @@ const initFilters = () => {
 initFilters();
 
 const deleteEmployee = async (uid) => {
+    loading.value = true
     try {
         const response = await fetch('http://localhost:8080/deleteUser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Set content type to JSON
             },
-            body: JSON.stringify(uid) // Convert data to JSON string
+            body: JSON.stringify({uid}) // Convert data to JSON string
         });
 
         if (!response.ok) {
@@ -42,15 +45,18 @@ const deleteEmployee = async (uid) => {
 
         await deleteDoc(doc(db, "accountRoles", result.uid));
 
+        console.log(result.uid)
+
         toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully deleted employee!', life: 3000 });
     } catch (error) {
         toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong!', life: 3000 });
         console.log(error);
     }
+    loading.value = false
 }
 
 const addResult = (res) => {
-    addDialog.value = false
+    dialog.value = false
     if (res == 'success') {
         toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully added employee!', life: 3000 });
     } else {
@@ -96,7 +102,7 @@ onMounted(() => {
         <Column header="Actions" Style="width: 10rem">
             <template #body="{ data }">
                 <Button severity="danger" icon="pi pi-trash" label="Delete" size="small" outlined
-                    @click="deleteEmployee(data.uid)" />
+                    @click="deleteEmployee(data.uid)" :loading="loading" />
             </template>
         </Column>
     </DataTable>

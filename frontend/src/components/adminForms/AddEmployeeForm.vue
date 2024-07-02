@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { doc, setDoc } from "firebase/firestore";
+import { db } from '@/stores/firebase';
 
 const emit = defineEmits(['result'])
 
@@ -8,12 +9,11 @@ const employee = ref({
     name: "",
     email: "",
     password: "",
-    category: "",
-    image: ""
+    category: ""
 })
 
 const position = ref([
-    { name: 'Cashier', code: 'C' },
+    { name: 'Cashier' },
 ]);
 
 const loading = ref(false)
@@ -37,7 +37,7 @@ const addEmployee = async (data) => {
 
 
         await setDoc(doc(db, "employee", result.uid), {
-            category: data.category,
+            category: data.category.name,
             name: data.name,
             email: data.email,
         });
