@@ -2,6 +2,8 @@ import './assets/main.css'
 import PrimeVue from 'primevue/config';
 import Aura from '@/presets/aura';
 import 'primeicons/primeicons.css';
+import { VueFire, VueFireAuth } from 'vuefire'
+import { firebaseApp } from '@/composables/firebase.js'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -32,8 +34,6 @@ import FileUpload from 'primevue/fileupload';
 import Chart from 'primevue/chart';
 import Password from 'primevue/password';
 import AutoComplete from 'primevue/autocomplete';
-
-
 
 const app = createApp(App)
 
@@ -68,5 +68,14 @@ app.use(PrimeVue, {
 app.use(ToastService);
 app.use(createPinia())
 app.use(router)
+
+app.use(VueFire, {
+    // imported above but could also just be created here
+    firebaseApp: firebaseApp,
+    modules: [
+        // we will see other modules later on
+        VueFireAuth(),
+    ],
+})
 
 app.mount('#app')

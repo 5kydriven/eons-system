@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { doc, setDoc } from "firebase/firestore";
-import { db } from '@/stores/firebase';
+import { db } from '@/composables/firebase';
 
 const emit = defineEmits(['result'])
 
@@ -21,7 +21,7 @@ const loading = ref(false)
 const addEmployee = async (data) => {
     loading.value = true
     try {
-        const response = await fetch('http://localhost:8080/createUser', {
+        const response = await fetch(import.meta.env.VITE_SERVER + '/createUser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Set content type to JSON

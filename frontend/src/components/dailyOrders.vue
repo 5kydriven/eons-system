@@ -1,12 +1,11 @@
 <script setup>
 import { useSaleStore } from '@/stores/SaleStore.js';
-import { db } from '@/stores/firebase.js';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { transactionRef } from '@/composables/firebase.js';
+import { onSnapshot } from 'firebase/firestore';
 import { ref, onMounted } from 'vue'
 
 const store = useSaleStore()
 
-const q = collection(db, "transactions");
 const dailyOrders = ref(0);
 
 const getDailyOrders = () => {
@@ -14,7 +13,7 @@ const getDailyOrders = () => {
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Set the time to 00:00:00
 
-        onSnapshot(q, (querySnapshot) => {
+        onSnapshot(transactionRef, (querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 const items = doc.data().items;
                 const timestamp = doc.data().timestamp;

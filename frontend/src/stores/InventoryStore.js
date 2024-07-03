@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import { db } from "./firebase";
+import { db, productRef, employeeRef } from "@/composables/firebase.js";
 import { ref } from "vue";
-import { collection, getDocs, where, onSnapshot, deleteDoc, doc } from "firebase/firestore";
+import { onSnapshot, deleteDoc, doc } from "firebase/firestore";
 
 export const useInventoryStore = defineStore('invetoryStore', () => {
     const data = ref([])
@@ -12,7 +12,7 @@ export const useInventoryStore = defineStore('invetoryStore', () => {
     const fetchData = () => {
         loading.value = true
         // const q = query(collection(db, "cities"), where("state", "==", "CA"));
-        onSnapshot(collection(db, "products"), (querySnapshot) => {
+        onSnapshot(productRef, (querySnapshot) => {
             const products = [];
             querySnapshot.forEach((doc) => {
                 products.push({ ...doc.data(), uid: doc.id });
@@ -24,7 +24,7 @@ export const useInventoryStore = defineStore('invetoryStore', () => {
 
     const getEmployeeData = () => {
         loading.value = true
-        onSnapshot(collection(db, "employee"), (querySnapshot) => {
+        onSnapshot(employeeRef, (querySnapshot) => {
             const e = [];
             querySnapshot.forEach((doc) => {
                 e.push({ ...doc.data(), uid: doc.id });

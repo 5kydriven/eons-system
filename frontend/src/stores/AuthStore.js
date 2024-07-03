@@ -1,25 +1,22 @@
 import { defineStore } from "pinia";
 import { auth } from "./firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { ref } from "firebase/storage";
+import { ref } from 'vue';
 
 export const useAuthStore = defineStore("authStore", () => {
-    const user = ref({});
+    const user = ref();
     const isLoading = ref(false);
+    const role = ref();
 
     const loginUser = async (credentials) => {
         // isLoading.value = true;
         try {
-            const userCredentials = await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
-            // Fetch additional user data from Firestore if needed
-            // Navigate to a specific route after successful login
-            console.log(userCredentials)
-            // isLoading.value = false;
+            const { user } = await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
+            user.value = user
         } catch (err) {
-            // Handle authentication errors
-            // isLoading.value = false;
             return getErrorMessage(err.code);
         }
+        // isLoading.value = false;
     };
 
     const getErrorMessage = (errorCode) => {

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import { ref, computed, watch } from "vue";
-import { doc, getDocs, serverTimestamp, updateDoc, collection, addDoc, where, query, onSnapshot, orderBy } from "firebase/firestore";
-import { db } from '@/stores/firebase.js'
+import { ref, computed } from "vue";
+import {where, query, onSnapshot, orderBy } from "firebase/firestore";
+import {transactionRef, productRef } from '@/composables/firebase.js'
 
 export const useSaleStore = defineStore('saleStore', () => {
     const today = new Date();
@@ -37,7 +37,7 @@ export const useSaleStore = defineStore('saleStore', () => {
     const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
 
     const dailyTransaction = query(
-        collection(db, "transactions"),
+        transactionRef,
         where("timestamp", ">=", startOfDay),
         where("timestamp", "<=", endOfDay)
     );
@@ -71,7 +71,7 @@ export const useSaleStore = defineStore('saleStore', () => {
     const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
     const monthlyTransaction = query(
-        collection(db, "transactions"),
+        transactionRef,
         where("timestamp", ">=", startOfMonth),
         where("timestamp", "<=", endOfMonth)
     );
@@ -100,11 +100,8 @@ export const useSaleStore = defineStore('saleStore', () => {
         }
     }
 
-    // get all the products
-    const queryStocks = query(collection(db, "products"))
-
     const getAllProducts = () => {
-        onSnapshot(queryStocks, (querySnapshot) => {
+        onSnapshot(productRef, (querySnapshot) => {
             let sumOfProducts = 0;
             querySnapshot.forEach((doc) => {
                 sumOfProducts += doc.data().stock;
@@ -117,7 +114,7 @@ export const useSaleStore = defineStore('saleStore', () => {
 
     const getAllTransaction = () => {
         loading.value = true
-        const q = query(collection(db, "transactions"), orderBy("timestamp", "desc"));
+        const q = query(transactionRef, orderBy("timestamp", "desc"));
         try {
             onSnapshot(q, (querySnapshot) => {
                 const products = [];

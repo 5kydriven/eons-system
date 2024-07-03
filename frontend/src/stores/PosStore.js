@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { doc, getDoc, serverTimestamp, updateDoc, collection, addDoc } from "firebase/firestore";
-import { db } from '@/stores/firebase.js'
+import { db, transactionRef } from '@/composables/firebase.js'
 import { useInventoryStore } from "./InventoryStore";
 
 const invStore = useInventoryStore()
@@ -110,7 +110,7 @@ export const usePosStore = defineStore('posStore', () => {
         try {
             isLoading.value = true
 
-            const counterDoc = await doc(db, "idCounter", "counter");
+            const counterDoc = doc(db, "idCounter", "counter");
             const counterSnapshot = await getDoc(counterDoc);
             let currentCounter = counterSnapshot.data().value;
 
@@ -139,7 +139,7 @@ export const usePosStore = defineStore('posStore', () => {
             await updateDoc(counterDoc, { value: currentCounter });
 
             // Add transaction to Firestore
-            await addDoc(collection(db, "transactions"), transaction);
+            await addDoc(transactionRef, transaction);
 
             cart.value = []
             errorMessage.value = '';

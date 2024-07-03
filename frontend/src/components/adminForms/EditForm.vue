@@ -1,8 +1,8 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, uploadBytes, ref as storageRef } from 'firebase/storage';
-import { db, storage } from '@/stores/firebase';
+import { db, storage } from '@/composables/firebase';
 
 const props = defineProps({
     product: Object

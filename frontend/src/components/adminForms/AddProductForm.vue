@@ -1,7 +1,7 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import { collection, addDoc } from 'firebase/firestore'
-import { db, storage } from '@/stores/firebase.js'
+import { ref } from 'vue'
+import { addDoc } from 'firebase/firestore'
+import { storage, productRef } from '@/composables/firebase.js'
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const emit = defineEmits(['result'])
@@ -29,7 +29,7 @@ const addProduct = async (p) => {
         const url = await getDownloadURL(storageReference);
         product.value.image = url;
 
-        await addDoc(collection(db, "products"), p);
+        await addDoc(productRef, p);
 
         if (file) {
             await uploadBytes(storageReference, file);

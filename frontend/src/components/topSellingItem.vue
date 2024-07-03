@@ -1,13 +1,13 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { collection, getDocs, query, orderBy, onSnapshot } from "firebase/firestore";
-import { db } from '@/stores/firebase.js'
+import { getDocs } from "firebase/firestore";
+import { transactionRef } from '@/composables/firebase.js'
 
 const topItems = ref([])
 
 const getTopSellingItems = async () => {
     try {
-        const querySnapshot = await getDocs(collection(db, "transactions"));
+        const querySnapshot = await getDocs(transactionRef);
         const products = {};
         querySnapshot.forEach((doc) => {
             const data = doc.data();
@@ -89,6 +89,6 @@ onMounted(() => {
             </tbody>
 
         </table>
-        
+
     </div>
 </template>

@@ -4,8 +4,8 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
-import { db } from "../../stores/firebase.js";
-import { collection, onSnapshot } from "firebase/firestore";
+import { productRef } from "@/composables/firebase";
+import { onSnapshot } from "firebase/firestore";
 
 const names = ref([]);
 const stocks = ref([]);
@@ -36,7 +36,7 @@ const generateColorList = (count) => tailwindColors.slice(0, count).map(getColor
 
 // Fetch data from Firestore
 const fetchData = () => {
-    onSnapshot(collection(db, "products"), (querySnapshot) => {
+    onSnapshot(productRef, (querySnapshot) => {
         const fetchedNames = [];
         const fetchedStocks = [];
         querySnapshot.forEach((doc) => {

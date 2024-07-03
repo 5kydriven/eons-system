@@ -1,6 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { db } from '@/stores/firebase.js'
+import { computed, onMounted } from 'vue';
 import { useSaleStore } from '@/stores/SaleStore.js'
 
 const store = useSaleStore();

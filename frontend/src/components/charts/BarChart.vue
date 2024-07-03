@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import Chart from 'chart.js/auto';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../../stores/firebase.js'; // import your Firebase configuration
+import { query, where, onSnapshot } from 'firebase/firestore';
+import { transactionRef } from '@/composables/firebase'; // import your Firebase configuration
 import { useSaleStore } from '@/stores/SaleStore.js'
 
 const store = useSaleStore();
@@ -12,7 +12,7 @@ const salesData = ref(months.map(() => 0)); // Initializing sales data array
 const expensesData = ref(months.map(() => 0)); // Initializing expenses data array
 
 const transactionQuery = query(
-    collection(db, "transactions"),
+    transactionRef,
     where("timestamp", ">=", new Date(new Date().getFullYear(), 0, 1)),
     where("timestamp", "<", new Date(new Date().getFullYear() + 1, 0, 1))
 );

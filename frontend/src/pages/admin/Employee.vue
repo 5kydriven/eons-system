@@ -5,7 +5,7 @@ import { useInventoryStore } from '@/stores/InventoryStore';
 import AddEmployee from '@/components/adminForms/AddEmployeeForm.vue'
 import { doc, deleteDoc } from "firebase/firestore";
 import { useToast } from 'primevue/usetoast';
-import { db } from '@/stores/firebase';
+import { db } from '@/composables/firebase.js';
 
 const store = useInventoryStore();
 const toast = useToast();
@@ -27,7 +27,7 @@ initFilters();
 const deleteEmployee = async (uid) => {
     loading.value = true
     try {
-        const response = await fetch('http://localhost:8080/deleteUser', {
+        const response = await fetch(import.meta.env.VITE_SERVER + '/deleteUser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Set content type to JSON
