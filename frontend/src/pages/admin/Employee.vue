@@ -90,7 +90,7 @@ onMounted(() => {
                 </span>
             </div>
         </template>
-        <template #empty> No Books found. </template>
+        <template #empty> No employee found. </template>
         <Column header="#" headerStyle="width: 3rem; font-weight: bold;" bodyStyle="font-weight: bold;">
             <template #body="slotProps">
                 {{ slotProps.index + 1 }}

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import { doc, getDoc, serverTimestamp, updateDoc, collection, addDoc } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, updateDoc, addDoc } from "firebase/firestore";
 import { db, transactionRef } from '@/composables/firebase.js'
 import { useInventoryStore } from "./InventoryStore";
 

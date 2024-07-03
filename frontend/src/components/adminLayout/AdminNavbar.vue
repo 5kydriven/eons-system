@@ -1,13 +1,8 @@
 <script setup>
-import { useAuthStore } from '@/stores/AuthStore'
-import {ref} from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
-const store = useAuthStore()
-const op = ref();
 
-const OpToggle = (event) => {
-    op.value.toggle(event);
-}
+const authStore = useAuthStore()
 </script>
 
 <template>
@@ -57,7 +52,7 @@ const OpToggle = (event) => {
                                     src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                                     alt="user photo" />
                             </button> -->
-                            <Button label="Logout" severity="danger" size="small" outlined icon="pi pi-sign-out" />
+                            <Button label="Logout" @click="authStore.logoutUser" severity="danger" size="small" outlined icon="pi pi-sign-out" />
                         </div>
                         <!-- <OverlayPanel ref="op">
                             <div class="text-base list-none bg-white">
