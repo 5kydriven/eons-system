@@ -3,7 +3,7 @@ import ItemAdded from './ItemAdded.vue'
 import TotalAmount from './TotalAmount.vue'
 </script>
 <template>
-    <aside id="separator-sidebar" class="w-full md:w-1/4 bg-white shadow " aria-label="Sidebar">
+    <aside id="separator-sidebar" class="w-full md:w-1/4 bg-white shadow fixed right-0 top-0" aria-label="Sidebar">
         <div
             class="flex flex-col justify-between h-full px-3 py-4 overflow-y-auto bg-white border-l border dark:bg-gray-800">
             <div>
