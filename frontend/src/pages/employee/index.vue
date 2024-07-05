@@ -24,7 +24,7 @@ const filteredProducts = computed(() => {
 <template>
     <div class="flex h-screen">
         <Sidebar />
-        <div class="main-content w-full ml-12 md:w-4/5 p-5 bg-gray-50">
+        <div class="main-content w-full ml-12 md:w-4/5 p-5 bg-gray-50 overflow-y-scroll">
             <div class="flex justify-between items-center mb-5">
                 <h1 class="text-2xl font-bold text-gray-800">Making Orders</h1>
                 <div class="flex space-x-2">
