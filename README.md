@@ -1,4 +1,4 @@
-# EON's-System
+# .
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -6,17 +6,13 @@ This template should help get you started developing with Vue 3 in Vite.
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Client Side
+## Type Support for `.vue` Imports in TS
 
-```sh
-cd frontend
-```
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
 
-## Server Side
+## Customize configuration
 
-```sh
-cd backend
-```
+See [Vite Configuration Reference](https://vite.dev/config/).
 
 ## Project Setup
 
@@ -30,7 +26,7 @@ npm install
 npm run dev
 ```
 
-### Compile and Minify for Production
+### Type-Check, Compile and Minify for Production
 
 ```sh
 npm run build
