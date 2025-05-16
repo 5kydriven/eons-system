@@ -8,11 +8,12 @@ import Aura from '@primeuix/themes/aura'
 
 import App from './App.vue'
 import router from './router'
-import Button from 'primevue/button'
+import { InputText, Button } from 'primevue'
 
 const app = createApp(App)
 
 app.component('Button', Button)
+app.component('InputText', InputText)
 
 app.use(PrimeVue, {
   theme: {
